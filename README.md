@@ -3,6 +3,8 @@
 
 
 ![Alt text](https://res.cloudinary.com/dn4s7vbjr/image/upload/v1747201194/MNIST-handwritten-digit-edge-detection-with-an-integrate-and-fire-VCSEL-neuron-Six-22_kgpwlq.png)
+
+
 This repository contains code for real-time recognition of single digits (0-9) from a live camera feed. It leverages OpenCV for video capture and image processing, and a TensorFlow model for digit classification.
 
 ## Overview
