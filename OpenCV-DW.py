@@ -34,43 +34,34 @@ class DigitPredictor:
     def start_cv(self):
         cap = cv2.VideoCapture(0)
         cv2.namedWindow('background')
-        cv2.namedWindow('Edges', cv2.WINDOW_NORMAL)  # Window to show edges
+        cv2.namedWindow('Edges', cv2.WINDOW_NORMAL)
         cv2.createTrackbar('threshold', 'background', self.threshold, 255, self.on_threshold_change)
-        background = np.zeros((480, 640, 3), np.uint8)  # Background must be 3-channel for color
+        background = np.zeros((480, 640, 3), np.uint8)
 
         while True:
             ret, frame = cap.read()
             if not ret:
                 break
 
-            # Clear areas outside the ROI
-            frame[0:480, 0:80] = 0  # Left black bar
-            frame[0:480, 560:640] = 0  # Right black bar
+            frame[0:480, 0:80] = 0
+            frame[0:480, 560:640] = 0
 
-            # Process the current frame
             roi_image, thresholded_frame = self.process_frame(frame)
 
-            # Predict the digit
             self.predicted_digit = self.predict(roi_image)
 
-            # Copy the frame for display
-            display_frame = frame.copy()  # Copy to avoid modifying the original
+            display_frame = frame.copy()
             background[:] = display_frame[:]
 
-            # Clear areas outside the ROI
-            background[0:480, 0:80] = 0  # Left black bar
-            background[0:480, 560:640] = 0  # Right black bar
+            background[0:480, 0:80] = 0
+            background[0:480, 560:640] = 0
 
-            # Display the predicted digit
             cv2.putText(background, self.predicted_digit, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
 
-            # Display the ROI
             cv2.rectangle(background, (self.roi_x_start, self.roi_y_start), (self.roi_x_end, self.roi_y_end), (255, 255, 255), 3)
 
-            # Show the result
             cv2.imshow('background', background)
 
-            # Show the edges
             cv2.imshow('Edges', thresholded_frame)
 
             if cv2.waitKey(1) & 0xff == ord('q'):
@@ -87,8 +78,6 @@ def main():
     print(predictor.model.summary())
 
     print("Starting CV...")
-    predictor.start_cv()    
+    predictor.start_cv()
 
-
-if __name__ == "__main__":
-    main()
+main()
